@@ -23,6 +23,14 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".ActionsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".OverlaySettingsActivity"
+            android:exported="false" />
+
         <service
             android:name=".GameSpaceService"
             android:exported="false"
