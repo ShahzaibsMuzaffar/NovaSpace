@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">Game Space</string>
+    <string name="app_name">Nova Space</string>
     <string name="service_desc">Shows floating action buttons, crosshair and the side panel over your games, and performs the taps you record.</string>
 </resources>
