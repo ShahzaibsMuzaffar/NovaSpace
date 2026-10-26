@@ -1,5 +1,10 @@
 <resources>
     <style name="Theme.GameSpace" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="colorPrimary">#FF5A1F</item>
+        <item name="colorPrimaryVariant">#C9440F</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorSecondary">#FF5A1F</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
         <item name="android:windowBackground">#0E0F12</item>
         <item name="android:statusBarColor">#0E0F12</item>
         <item name="android:navigationBarColor">#0E0F12</item>
