@@ -41,6 +41,7 @@ class GameSpaceService : AccessibilityService() {
 
     private val holdTokens = HashMap<String, Int>()
     private var tokenCounter = 0
+    private var lastMark = 0L
 
     var inGame = false
         private set
@@ -61,7 +62,18 @@ class GameSpaceService : AccessibilityService() {
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
         if (event == null || event.eventType != AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) return
         val pkg = event.packageName?.toString() ?: return
-        if (pkg == "com.android.systemui" || pkg.contains("inputmethod")) return
+        val cls = event.className?.toString() ?: ""
+
+        if (pkg == packageName) {
+            // NovaSpace's own overlays also send events. Only real screens count.
+            val isScreen = cls.startsWith("$packageName.") && cls.endsWith("Activity")
+            if (!isScreen) return
+            if (System.currentTimeMillis() - lastMark < 2000) return
+        }
+        if (pkg == "com.android.systemui" || pkg.contains("inputmethod") ||
+            pkg.contains("permissioncontroller")
+        ) return
+
         val now = store.games.contains(pkg)
         if (now != inGame) {
             inGame = now
@@ -70,6 +82,14 @@ class GameSpaceService : AccessibilityService() {
     }
 
     override fun onInterrupt() {}
+
+    fun markGame(pkg: String) {
+        lastMark = System.currentTimeMillis()
+        if (store.games.contains(pkg) && !inGame) {
+            inGame = true
+            refreshAll()
+        }
+    }
 
     override fun onDestroy() {
         instance = null
