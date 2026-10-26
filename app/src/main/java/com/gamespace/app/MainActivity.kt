@@ -92,7 +92,8 @@ class MainActivity : AppCompatActivity() {
         val enabled = Settings.Secure.getString(
             contentResolver, Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES
         ) ?: return false
-        return enabled.contains("$packageName/$packageName.GameSpaceService")
+        return enabled.contains("$packageName/.GameSpaceService") ||
+                enabled.contains("$packageName/$packageName.GameSpaceService")
     }
 
     private fun refresh() {
@@ -121,6 +122,7 @@ class MainActivity : AppCompatActivity() {
     private fun launch(item: GameItem) {
         val intent = packageManager.getLaunchIntentForPackage(item.pkg)
         if (intent != null) {
+            GameSpaceService.instance?.markGame(item.pkg)
             startActivity(intent)
         } else {
             Toast.makeText(this, "Cannot open ${item.label}", Toast.LENGTH_SHORT).show()
